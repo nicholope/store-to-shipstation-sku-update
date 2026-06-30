@@ -1,0 +1,30 @@
+name: Update ShipStation SKUs
+
+on:
+  workflow_dispatch: # run manually from the Actions tab
+  schedule:
+    - cron: '0 * * * *' # every hour
+
+jobs:
+  update-skus:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests python-dotenv
+
+      - name: Run SKU update
+        env:
+          SHIPSTATION_API_KEY: ${{ secrets.SHIPSTATION_API_KEY }}
+          SHIPSTATION_API_SECRET: ${{ secrets.SHIPSTATION_API_SECRET }}
+          SHIPSTATION_STORE_ID: ${{ secrets.SHIPSTATION_STORE_ID }}
+          SUPPLIER_SKU_PREFIX: ${{ secrets.SUPPLIER_SKU_PREFIX }}
+        run: python sku_update.py
