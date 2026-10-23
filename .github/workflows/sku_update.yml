@@ -2,8 +2,10 @@ name: Update ShipStation SKUs
 
 on:
   workflow_dispatch: # run manually from the Actions tab
-  schedule:
-    - cron: '0 * * * *' # every hour
+  # Hourly schedule disabled 2026-10-23 — replaced by a cron job running every
+  # 30 min on the self-hosted server. Re-enable by uncommenting if needed.
+  # schedule:
+  #   - cron: '0 * * * *' # every hour
 
 jobs:
   update-skus:
